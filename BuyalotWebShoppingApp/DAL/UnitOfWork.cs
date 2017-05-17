@@ -8,6 +8,7 @@ namespace BuyalotWebShoppingApp.DAL
         private BuyalotDbContext context = new BuyalotDbContext();
         private GenericRepository<Product> productRepository;
         private GenericRepository<Customer> customerRepository;
+        private GenericRepository<ProductCategory> productCategoryRepository;
 
         public GenericRepository<Product> ProductRepository
         {
@@ -32,6 +33,19 @@ namespace BuyalotWebShoppingApp.DAL
                     this.customerRepository = new GenericRepository<Customer>(context);
                 }
                 return customerRepository;
+            }
+        }
+
+        public GenericRepository<ProductCategory> ProductCategoryRepository
+        {
+            get
+            {
+
+                if (this.productCategoryRepository == null)
+                {
+                    this.productCategoryRepository = new GenericRepository<ProductCategory>(context);
+                }
+                return productCategoryRepository;
             }
         }
 
