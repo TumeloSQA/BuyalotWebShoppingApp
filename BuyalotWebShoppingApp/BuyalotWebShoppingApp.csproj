@@ -77,6 +77,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -196,8 +200,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoryManagementController.cs" />
+    <Compile Include="Controllers\CustomerManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DAL\CategoryRepository.cs" />
+    <Compile Include="DAL\GenericRepository.cs" />
+    <Compile Include="DAL\ICategoryRepository.cs" />
+    <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DbContexts\BuyalotDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -283,6 +293,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\CategoryManagement\Create.cshtml" />
+    <Content Include="Views\CategoryManagement\Delete.cshtml" />
+    <Content Include="Views\CategoryManagement\Details.cshtml" />
+    <Content Include="Views\CategoryManagement\Edit.cshtml" />
+    <Content Include="Views\CategoryManagement\Index.cshtml" />
+    <Content Include="Views\CustomerManagement\Create.cshtml" />
+    <Content Include="Views\CustomerManagement\Delete.cshtml" />
+    <Content Include="Views\CustomerManagement\Details.cshtml" />
+    <Content Include="Views\CustomerManagement\Edit.cshtml" />
+    <Content Include="Views\CustomerManagement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
