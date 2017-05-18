@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using BuyalotWebShoppingApp.Models;
 using BuyalotWebShoppingApp.DAL;
+using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
@@ -16,10 +17,40 @@ namespace BuyalotWebShoppingApp.Controllers
 
         // GET: CategoryManagement
 
-        public ViewResult Index()
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
             var categories = unitOfWork.ProductCategoryRepository.Get();
-            return View(categories.ToList());
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                categories = categories.Where(s => s.CategoryName.ToUpper().Contains(searchString.ToUpper()));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    categories = categories.OrderByDescending(s => s.CategoryName);
+                    break;
+                default:  // Name ascending 
+                    categories = categories.OrderBy(s => s.CategoryName);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(categories.ToPagedList(pageNumber, pageSize));
         }
 
         //
