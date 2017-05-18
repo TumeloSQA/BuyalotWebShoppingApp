@@ -204,6 +204,7 @@
     <Compile Include="Controllers\CustomerManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductsManagerController.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DbContexts\BuyalotDbContext.cs" />
@@ -301,6 +302,11 @@
     <Content Include="Views\CustomerManagement\Details.cshtml" />
     <Content Include="Views\CustomerManagement\Edit.cshtml" />
     <Content Include="Views\CustomerManagement\Index.cshtml" />
+    <Content Include="Views\ProductsManager\Create.cshtml" />
+    <Content Include="Views\ProductsManager\Delete.cshtml" />
+    <Content Include="Views\ProductsManager\Details.cshtml" />
+    <Content Include="Views\ProductsManager\Edit.cshtml" />
+    <Content Include="Views\ProductsManager\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
