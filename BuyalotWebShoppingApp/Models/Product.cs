@@ -45,7 +45,6 @@ namespace BuyalotWebShoppingApp.Models
         [Display(Name = "Quantity in Stock")]
         public int QuantityInStock { get; set; }
 
-        [Required(ErrorMessage = "Product Image is a required field")]
         [Display(Name = "Product Image")]
         public byte[] ProductImage { get; set; }
 

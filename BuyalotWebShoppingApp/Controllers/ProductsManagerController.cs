@@ -7,11 +7,15 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BuyalotWebShoppingApp.Models;
+using BuyalotWebShoppingApp.DAL;
+using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
+    //[Authorize]
     public class ProductsManagerController : Controller
     {
+
         private BuyalotDbContext db = new BuyalotDbContext();
 
         // GET: ProductsManager
@@ -40,7 +44,9 @@ namespace BuyalotWebShoppingApp.Controllers
         public ActionResult Create()
         {
             ViewBag.ProdCategoryID = new SelectList(db.ProductCategories, "ProdCategoryID", "CategoryName");
-            return View();
+            Product pro = new Product();
+            return View(pro);
+
         }
 
         // POST: ProductsManager/Create
@@ -48,12 +54,19 @@ namespace BuyalotWebShoppingApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,ProductName,ProductDescription,ProdCategoryID,Price,Vendor,QuantityInStock,ProductImage")] Product product)
+        public ActionResult Create([Bind(Include = "ProductID,ProductName,ProductDescription,ProdCategoryID,Price,Vendor,QuantityInStock,ProductImage")] Product product, FormCollection collection, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null)
+                {
+                    product.ProductImage = new byte[upload.ContentLength];
+                    upload.InputStream.Read(product.ProductImage, 0, upload.ContentLength);
+                }
                 db.Products.Add(product);
                 db.SaveChanges();
+                ViewBag.result = "Product " + product.Vendor + " " + product.ProductName + " Added Succesfully!";
+
                 return RedirectToAction("Index");
             }
 
@@ -73,7 +86,7 @@ namespace BuyalotWebShoppingApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ProdCategoryID = new SelectList(db.ProductCategories, "ProdCategoryID", "CategoryName", product.ProdCategoryID);
+            ViewBag.prodCategoryID = new SelectList(db.ProductCategories, "ProdCategoryID", "CategoryName", product.ProdCategoryID);
             return View(product);
         }
 
@@ -90,7 +103,7 @@ namespace BuyalotWebShoppingApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProdCategoryID = new SelectList(db.ProductCategories, "ProdCategoryID", "CategoryName", product.ProdCategoryID);
+            ViewBag.prodCategoryID = new SelectList(db.ProductCategories, "ProdCategoryID", "CategoryName", product.ProdCategoryID);
             return View(product);
         }
 

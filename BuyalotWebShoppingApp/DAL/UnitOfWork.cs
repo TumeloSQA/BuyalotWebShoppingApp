@@ -9,6 +9,20 @@ namespace BuyalotWebShoppingApp.DAL
         private GenericRepository<Product> productRepository;
         private GenericRepository<Customer> customerRepository;
         private GenericRepository<ProductCategory> productCategoryRepository;
+        private GenericRepository<Admin> adminRepository;
+
+        public GenericRepository<Admin> AdminRepository
+        {
+            get
+            {
+
+                if (this.adminRepository == null)
+                {
+                    this.adminRepository = new GenericRepository<Admin>(context);
+                }
+                return adminRepository;
+            }
+        }
 
         public GenericRepository<Product> ProductRepository
         {

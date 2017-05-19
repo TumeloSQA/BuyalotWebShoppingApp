@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.navbar-brand {
+    position: relative;
+    border:none;
+    height: 45px;
+    width: 132px;
+    background-image: url('../Images/buyalot.PNG');
+}

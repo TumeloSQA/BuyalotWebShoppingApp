@@ -48,7 +48,7 @@ namespace BuyalotWebShoppingApp.Controllers
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 50;
             int pageNumber = (page ?? 1);
             return View(categories.ToPagedList(pageNumber, pageSize));
         }
