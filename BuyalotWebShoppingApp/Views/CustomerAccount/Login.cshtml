@@ -1,0 +1,51 @@
+﻿@using BuyalotWebShoppingApp.Models;
+@model BuyalotWebShoppingApp.Models.User
+@{
+    ViewBag.Title = "Customer Account | Login";
+}
+
+<br />
+<h2> Customer Login</h2>
+
+@ViewBag.err
+@using (Html.BeginForm("Login", "CustomerAccount"@*, new { returnUrl = Request.QueryString["ReturnUrl"] }*@, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <fieldset class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { htmlAttributes = new { @class = "text-danger" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { htmlAttributes = new { @class = "text-danger" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-log-in"></span> Login</button><wbr />|<wbr /><wbr /><wbr />@Html.ActionLink("Forgot password?", "ForgotPassword")
+            </div>
+            @*<div class="col-md-offset-3 col-sm-3">
+                @Html.ActionLink("Forgot password?", "ForgotPassword")
+            </div>*@
+        </div>
+    </fieldset>
+}
+<div class="col-md-offset-3 col-sm-2">
+    @Html.ActionLink("Don't have an account? Register", "Register")|@Html.ActionLink("Login as Admin", "Login","AdminAccount")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

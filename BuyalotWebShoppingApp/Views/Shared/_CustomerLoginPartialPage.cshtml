@@ -1,0 +1,41 @@
+﻿<ul class="nav navbar-nav navbar-right">
+    @if (Session["username"] != null)
+    {
+
+        <li class="pull-left">
+    
+        </li>
+
+        <li><a>Welcome Customer @Session["username"] </a></li>
+        <li>@Html.ActionLink("Logout", "Logout", new { controller = "CustomerAccount" }, new { @class = "logOut" })</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("Login ", "Login", new { controller = "CustomerAccount" }, new { @class = "login" })</li>
+        <li>@Html.ActionLink("Register ", "Register", new { controller = "CustomerAccount" }, new { @class = "register" })</li>
+        <li>@Html.ActionLink(" " + Convert.ToInt32(Session["cartCounter"]) + "", "Cart", new { controller = "ShoppingCart" }, new { @class = "cartColor glyphicon glyphicon-shopping-cart" })</li>
+        <li>@Html.ActionLink(" " + Convert.ToInt32(Session["wishCounter"]) + "", "AddToWishlist", new { controller = "ProductsWishlist" }, new { @class = "wishColor glyphicon glyphicon-heart" })</li>
+
+    }
+
+
+    @if (Session["cusName"] != null)
+    {
+        <li class="dropdown" dropdown="">
+            <a href="#" class="dropdown-toggle" dropdown-toggle="" data-toggle="dropdown">
+                <span>My Account</span><b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li>@Html.ActionLink("Track Order", "Index", new { controller = "Order" }, new { @class = "trackOrder" })</li>
+                <li>@Html.ActionLink("Personal details", "EditProfile", "Profile", new { id = Convert.ToInt32(Session["userID"]) }, new { @class = "editProfile" })</li>
+                <li>@Html.ActionLink("Invoices", "Invoice", new { controller = "Invoice" }, new { @class = "invoice" })</li>
+
+            </ul>
+        </li>
+        <li>@Html.ActionLink(" " + Convert.ToInt32(Session["cartCounter"]) + "", "Cart", new { controller = "ShoppingCart" }, new { @class = "cartColor glyphicon glyphicon-shopping-cart" })</li>
+        <li>@Html.ActionLink(" " + Convert.ToInt32(Session["wishCounter"]) + "", "AddToWishlist", new { controller = "ProductsWishlist" }, new { @class = "wishColor glyphicon glyphicon-heart" })</li>
+
+    }
+
+</ul>
+

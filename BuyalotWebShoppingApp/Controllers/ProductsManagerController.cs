@@ -12,17 +12,32 @@ using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ProductsManagerController : Controller
     {
 
         private BuyalotDbContext db = new BuyalotDbContext();
 
         // GET: ProductsManager
+        //public ActionResult Index()
+        //{
+        //    var products = db.Products.Include(p => p.ProductCategory);
+        //    foreach (var item in products)
+        //    {
+        //        Session["ProdCount"] = products.Count();
+        //    }
+        //    return View(products.ToList());
+        //}
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.ProductCategory);
-            return View(products.ToList());
+            //ViewBag.prodCategoryID = new SelectList(Context.ProductCategoryModelSet, "prodCategoryID", "categoryName");
+            var product = (from p in db.Products
+                           select p).ToList();
+            foreach (var item in product)
+            {
+                Session["ProdCount"] = product.Count;
+            }
+            return View(product);
         }
 
         // GET: ProductsManager/Details/5

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Customer Management | Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <!-- Bootstrap -->
@@ -66,7 +67,7 @@
                 </th>
                 <th>Action</th>
             </tr>
-            </thead>
+        </thead>
         <tbody>
             @foreach (var item in Model)
             {
@@ -95,7 +96,7 @@
             }
         </tbody>
 
-</table>
+    </table>
 
 </fieldset>
 

@@ -2,7 +2,7 @@
 @model BuyalotWebShoppingApp.Models.Product
 @{
     ViewBag.Title = "Products Manager Dashboard | Product Details";
-    //Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <script src="~/Scripts/bootstrap-formhelpers-countries.js"></script>
@@ -81,7 +81,7 @@
     </div>
     <hr />
     <div>
-        @Html.ActionLink("Back to List", "Index") | @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) 
+        @Html.ActionLink("Back to List", "Index") | @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID })
     </div>
 </div>
 

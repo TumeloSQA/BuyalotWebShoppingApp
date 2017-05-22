@@ -169,7 +169,6 @@ namespace BuyalotWebShoppingApp.Migrations
                         Email = c.String(nullable: false),
                         Password = c.String(nullable: false),
                         ConfirmPassword = c.String(nullable: false),
-                        Role = c.String(),
                     })
                 .PrimaryKey(t => t.userId);
             

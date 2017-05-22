@@ -1,0 +1,31 @@
+﻿
+@if (Session["adminName"] != null)
+{
+    <div class="nav navbar-left">
+        <div class="panel-group">
+            <div class="panel panel-info">
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="/#/" data-toggle="collapse" data-parent="accordion">ADMIN DASHBOARD</a>
+                    </h4>
+                </div>
+                <div id="admin" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <ul class="nav">
+                            <li><a>@Html.ActionLink("Customer Management (" + Convert.ToInt32(Session["CusCount"]) + ")", "Index", "CustomerManagement")</a></li>
+                            <li><a>@Html.ActionLink("Products Management (" + Convert.ToInt32(Session["ProdCount"]) + ")", "Index", "ProductsManager")</a></li>
+                            <li><a>@Html.ActionLink("Categories Management (" + Convert.ToInt32(Session["CatCount"]) + ")", "Index", "CategoryManagement")</a></li>
+                            <li><a>@Html.ActionLink("Customer Orders Management (" + Convert.ToInt32(Session["OrderCount"]) + ")", "Index", "Order")</a></li>
+                            <li><a>@Html.ActionLink("Subscription Management (" + Convert.ToInt32(Session["SubCount"]) + ")", "Index", "SubscribeModels")</a></li>
+
+                            @*<li><a href="#">Cart(<label id="cart">@Session["totalCartCounter"]</label>)</a></li>*@
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

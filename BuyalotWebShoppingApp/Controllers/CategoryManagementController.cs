@@ -11,6 +11,7 @@ using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
+    [Authorize]
     public class CategoryManagementController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
@@ -33,6 +34,10 @@ namespace BuyalotWebShoppingApp.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var categories = unitOfWork.ProductCategoryRepository.Get();
+            foreach (var item in categories)
+            {
+                Session["CatCount"] = categories.Count();
+            }
 
             if (!String.IsNullOrEmpty(searchString))
             {

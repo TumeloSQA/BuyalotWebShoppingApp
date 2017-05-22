@@ -8,7 +8,7 @@
 <h2> Admin Login</h2>
 
 @ViewBag.err
-@using (Html.BeginForm("Login", "Account", new { returnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post))
+@using (Html.BeginForm("Login", "AdminAccount"@*, new { returnUrl = Request.QueryString["ReturnUrl"] }*@, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -34,17 +34,18 @@
 
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
-                <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-log-in"></span> Login</button>
+                <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-log-in"></span> Login</button>|@Html.ActionLink("Forgot password?", "ForgotPassword")
             </div>
-            <div class="col-md-offset-3 col-sm-3">
+            @*<div class="col-md-offset-3 col-sm-3">
                 @Html.ActionLink("Forgot password?", "ForgotPassword")
-            </div>
+            </div>*@
+        </div>
+        <div class="col-md-offset-2 col-sm-3">
+            @Html.ActionLink("Don't have an account? Register", "Register")|@Html.ActionLink("Login as Customer", "Login", "CustomerAccount")
         </div>
     </fieldset>
 }
-<div>
-    @Html.ActionLink("Don't have an account? Register", "Register")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

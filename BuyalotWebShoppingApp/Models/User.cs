@@ -32,8 +32,19 @@ namespace BuyalotWebShoppingApp.Models
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "Role")]
-        public string Role { get; set; }
+  
+
+        public bool isValid(string email, string password)
+        {
+            BuyalotDbContext context = new BuyalotDbContext();
+            var u = (from s in context.Users
+                     where s.Email == email && s.Password == password
+                     select s).ToList();
+            if (u.Count > 0)
+                return true;
+            else
+                return false;
+        }
     }
 
 }

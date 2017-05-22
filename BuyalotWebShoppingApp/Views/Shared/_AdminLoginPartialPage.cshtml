@@ -1,0 +1,20 @@
+﻿@if (Session["adminName"] != null)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a>Welcome @Session["adminName"] </a></li>
+        <li>@Html.ActionLink("Logout", "Logout", new { controller = "Account" }, new { @class = "logOut" })</li>
+    </ul>
+
+}
+else
+{
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Login", "Login", new { controller = "Account" }, new { @class = "login" })</li>
+        <li>@Html.ActionLink("Register", "Register", new { controller = "Account" }, new { @class = "register" })</li>
+    </ul>
+}
+@*@if (Session["adminName"] != null)
+            {
+
+            }*@

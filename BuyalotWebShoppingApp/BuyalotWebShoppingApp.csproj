@@ -199,10 +199,10 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminAccountController.cs" />
     <Compile Include="Controllers\AdminManagerController.cs" />
     <Compile Include="Controllers\CategoryManagementController.cs" />
+    <Compile Include="Controllers\CustomerAccountController.cs" />
     <Compile Include="Controllers\CustomerManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsManagerController.cs" />
@@ -234,6 +234,8 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\Cipher.cs" />
+    <Compile Include="Repository\CategoryRepository.cs" />
+    <Compile Include="Repository\ICategoryRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -342,22 +344,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
@@ -388,8 +377,16 @@
     <Content Include="Views\AdminManager\Index.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\_references.js.orig" />
-    <Content Include="Views\AdminAccount\Register.cshtml" />
     <Content Include="Views\AdminAccount\Login.cshtml" />
+    <Content Include="Views\Shared\_AdminLoginPartialPage.cshtml" />
+    <Content Include="Views\Shared\_AdminPanelPartialPage.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\CustomerAccount\Register.cshtml" />
+    <Content Include="Views\CustomerAccount\Login.cshtml" />
+    <Content Include="Views\AdminAccount\ForgotPassword.cshtml" />
+    <Content Include="Views\CustomerAccount\ForgotPassword.cshtml" />
+    <Content Include="Views\Shared\_CustomerLayout.cshtml" />
+    <Content Include="Views\Shared\_CustomerLoginPartialPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

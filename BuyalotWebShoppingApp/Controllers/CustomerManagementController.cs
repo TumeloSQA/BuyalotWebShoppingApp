@@ -10,6 +10,7 @@ using BuyalotWebShoppingApp.DAL;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
+    [Authorize]
     public class CustomerManagementController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
@@ -18,6 +19,10 @@ namespace BuyalotWebShoppingApp.Controllers
         public ViewResult Index()
         {
             var customers = unitOfWork.CustomerRepository.Get();
+            foreach (var item in customers)
+            {
+                Session["CusCount"] = customers.Count();
+            }
             return View(customers.ToList());
         }
 

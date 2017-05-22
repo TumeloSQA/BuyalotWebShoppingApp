@@ -11,6 +11,7 @@ using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
+    [Authorize]
     public class AdminManagerController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
@@ -32,6 +33,10 @@ namespace BuyalotWebShoppingApp.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var admins = unitOfWork.AdminRepository.Get();
+            foreach (var item in admins)
+            {
+                Session["AdminCount"] = admins.Count();
+            }
 
             if (!String.IsNullOrEmpty(searchString))
             {
