@@ -11,7 +11,7 @@ using System.Web.Security;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AdminAccountController : Controller
     {
 
@@ -93,8 +93,8 @@ namespace BuyalotWebShoppingApp.Controllers
                 Admin admin = new Admin();
                 admin.adminName = model.adminName;
                 admin.email = model.email;
-                admin.password = model.password;
-                admin.confirmPassword = model.confirmPassword;
+                admin.password = Cipher.Encrypt(model.password);
+                admin.confirmPassword = Cipher.Encrypt(model.confirmPassword);
 
                 Context.Admins.Add(admin);
                 Context.SaveChanges();
@@ -116,6 +116,7 @@ namespace BuyalotWebShoppingApp.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Logout()
         {
             var response = new HttpStatusCodeResult(HttpStatusCode.Created);
@@ -123,7 +124,7 @@ namespace BuyalotWebShoppingApp.Controllers
 
             Session["adminName"] = null;
             Session.Abandon();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Login", "AdminAccount");
         }
 
         [HttpGet]

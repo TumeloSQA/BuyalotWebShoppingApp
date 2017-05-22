@@ -1,7 +1,7 @@
 ﻿@if (Session["adminName"] != null)
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a>Welcome @Session["adminName"] </a></li>
+        <li><a>Welcome Admin @Session["adminName"] </a></li>
         <li>@Html.ActionLink("Logout", "Logout", new { controller = "Account" }, new { @class = "logOut" })</li>
     </ul>
 

@@ -8,7 +8,7 @@
 <br />
 <fieldset>
     <legend class="container">Customer Dashboard | Edit Customer</legend>
-    @using (Html.BeginForm("Edit", "CustomerManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Edit", "CustomerManagement"@*, FormMethod.Post, new { enctype = "multipart/form-data" }*@))
     {
         @Html.AntiForgeryToken()
 
