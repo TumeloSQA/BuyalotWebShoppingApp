@@ -13,7 +13,7 @@ namespace BuyalotWebShoppingApp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201705171018225_BuyalotDbContext"; }
+            get { return "201705191311178_BuyalotDbContext"; }
         }
         
         string IMigrationMetadata.Source

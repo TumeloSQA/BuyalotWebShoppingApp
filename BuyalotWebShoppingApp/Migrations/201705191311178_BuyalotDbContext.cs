@@ -93,7 +93,7 @@ namespace BuyalotWebShoppingApp.Migrations
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Vendor = c.String(nullable: false),
                         QuantityInStock = c.Int(nullable: false),
-                        ProductImage = c.Binary(nullable: false),
+                        ProductImage = c.Binary(),
                     })
                 .PrimaryKey(t => t.ProductID)
                 .ForeignKey("dbo.ProductCategory", t => t.ProdCategoryID, cascadeDelete: true)
@@ -121,23 +121,23 @@ namespace BuyalotWebShoppingApp.Migrations
                         CategoryName = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.ProdCategoryID);
-
+            
             CreateTable(
                 "dbo.Payment",
                 c => new
-                {
-                    PaymentID = c.Int(nullable: false, identity: true),
-                    PaymentDate = c.DateTime(nullable: false),
-                    CustomerID = c.Int(nullable: false),
-                    OrderID = c.Int(nullable: false),
-                    PaymentType = c.String(),
-                    TotalPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
-                })
+                    {
+                        PaymentID = c.Int(nullable: false, identity: true),
+                        PaymentDate = c.DateTime(nullable: false),
+                        CustomerID = c.Int(nullable: false),
+                        OrderID = c.Int(nullable: false),
+                        PaymentType = c.String(),
+                        TotalPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                    })
                 .PrimaryKey(t => t.PaymentID)
                 .ForeignKey("dbo.Customer", t => t.CustomerID, cascadeDelete: true)
-                //.ForeignKey("dbo.Order", t => t.OrderID, cascadeDelete: true)
-                .Index(t => t.CustomerID);
-                //.Index(t => t.OrderID);
+                .ForeignKey("dbo.Order", t => t.OrderID, cascadeDelete: true)
+                .Index(t => t.CustomerID)
+                .Index(t => t.OrderID);
             
             CreateTable(
                 "dbo.Admin",
@@ -147,6 +147,7 @@ namespace BuyalotWebShoppingApp.Migrations
                         adminName = c.String(nullable: false),
                         email = c.String(nullable: false),
                         password = c.String(nullable: false),
+                        confirmPassword = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.adminID);
             

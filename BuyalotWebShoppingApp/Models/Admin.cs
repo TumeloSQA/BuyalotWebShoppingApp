@@ -27,6 +27,24 @@ namespace BuyalotWebShoppingApp.Models
         [DataType(DataType.Password)]
         public string password { get; set; }
 
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("password", ErrorMessage = "Passwords do not match")]
+        public string confirmPassword { get; set; }
+
+        public bool isValid(string email, string password)
+        {
+            BuyalotDbContext context = new BuyalotDbContext();
+            var u = (from s in context.Admins
+                     where s.email == email && s.password == password
+                     select s).ToList();
+            if (u.Count > 0)
+                return true;
+            else
+                return false;
+        }
+
     }
 
 }
