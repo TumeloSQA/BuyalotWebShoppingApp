@@ -10,7 +10,7 @@ using BuyalotWebShoppingApp.DAL;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CustomerManagementController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
@@ -42,10 +42,10 @@ namespace BuyalotWebShoppingApp.Controllers
         // POST: CustomerManagement/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "customerID,FirstName,LastName,Phone,Email,State")]Customer customer)
+        public ActionResult Create([Bind(Include = "customerID,FirstName,LastName,Phone,Email,State")]Customer customer, string returnUrl)
         {
             try
             {
@@ -53,7 +53,9 @@ namespace BuyalotWebShoppingApp.Controllers
                 {
                     unitOfWork.CustomerRepository.Insert(customer);
                     unitOfWork.Save();
+
                     return RedirectToAction("Index");
+
                 }
             }
             catch (DataException /* dex */)
@@ -76,7 +78,7 @@ namespace BuyalotWebShoppingApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( [Bind(Include = "customerID,FirstName,LastName,Phone,Email,State")]Customer customer)
+        public ActionResult Edit([Bind(Include = "customerID,FirstName,LastName,Phone,Email,State")]Customer customer)
         {
             try
             {

@@ -94,8 +94,8 @@ namespace BuyalotWebShoppingApp.Controllers
                 Models.User user = new Models.User();
                 user.Username = model.Username;
                 user.Email = model.Email;
-                user.Password = model.Password;
-                user.ConfirmPassword = model.ConfirmPassword;
+                user.Password = Cipher.Encrypt(model.Password);
+                user.ConfirmPassword = Cipher.Encrypt(model.ConfirmPassword);
 
 
                 Context.Users.Add(user);
@@ -162,7 +162,7 @@ namespace BuyalotWebShoppingApp.Controllers
             message.From = new System.Net.Mail.MailAddress("maremanetp@gmail.com");
             message.To.Add(new System.Net.Mail.MailAddress(model.Email));
             message.Subject = "Buyalot Online Shopping : Password Recovery";
-            message.Body = string.Format("Hi {0} ,<br /><br />Your password is: {0} .<br /><br />Thank You. <br /> Regards, <br /> Buyalot DevTeam", model.Username, model.Password);
+            message.Body = string.Format("Hi {0} ,<br /><br />Your password is: {1} .<br /><br />Thank You. <br /> Regards, <br /> Buyalot DevTeam", model.Email, tempPassword);
             message.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";

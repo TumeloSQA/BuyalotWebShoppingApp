@@ -10,7 +10,7 @@
 <fieldset>
 
     <legend class="container">Category Management Dashboard | Add Category</legend>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Create", "CategoryManagement", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 

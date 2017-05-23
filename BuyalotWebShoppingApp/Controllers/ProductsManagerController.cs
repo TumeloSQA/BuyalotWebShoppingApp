@@ -12,22 +12,13 @@ using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ProductsManagerController : Controller
     {
 
         private BuyalotDbContext db = new BuyalotDbContext();
 
         // GET: ProductsManager
-        //public ActionResult Index()
-        //{
-        //    var products = db.Products.Include(p => p.ProductCategory);
-        //    foreach (var item in products)
-        //    {
-        //        Session["ProdCount"] = products.Count();
-        //    }
-        //    return View(products.ToList());
-        //}
         public ActionResult Index()
         {
             //ViewBag.prodCategoryID = new SelectList(Context.ProductCategoryModelSet, "prodCategoryID", "categoryName");

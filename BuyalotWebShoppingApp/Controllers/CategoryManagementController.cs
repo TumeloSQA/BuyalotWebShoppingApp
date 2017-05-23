@@ -11,14 +11,14 @@ using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CategoryManagementController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
-
+        private BuyalotDbContext db = new BuyalotDbContext();
         // GET: CategoryManagement
 
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -33,29 +33,69 @@ namespace BuyalotWebShoppingApp.Controllers
             }
             ViewBag.CurrentFilter = searchString;
 
-            var categories = unitOfWork.ProductCategoryRepository.Get();
-            foreach (var item in categories)
+
+            if (Session["adminName"] != null)
             {
-                Session["CatCount"] = categories.Count();
+                //Load counters
+                //Count Admins
+                var admins = unitOfWork.AdminRepository.Get();
+                foreach (var item in admins)
+                {
+                    Session["AdminCount"] = admins.Count();
+                }
+                //Count Customers
+                var customers = unitOfWork.CustomerRepository.Get();
+                foreach (var item in customers)
+                {
+                    Session["CusCount"] = customers.Count();
+                }
+                //Count Products
+                var product = (from p in db.Products
+                               select p).ToList();
+                foreach (var item in product)
+                {
+                    Session["ProdCount"] = product.Count;
+                }
+                var categories = unitOfWork.ProductCategoryRepository.Get();
+
+                foreach (var item in categories)
+                {
+                    Session["CatCount"] = categories.Count();
+                }
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    categories = categories.Where(s => s.CategoryName.ToUpper().Contains(searchString.ToUpper()));
+                }
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        categories = categories.OrderByDescending(s => s.CategoryName);
+                        break;
+                    default:  // Name ascending 
+                        categories = categories.OrderBy(s => s.CategoryName);
+                        break;
+                }
+
+                int pageSize = 50;
+                int pageNumber = (page ?? 1);
+
+                return View(categories.ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
             }
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                categories = categories.Where(s => s.CategoryName.ToUpper().Contains(searchString.ToUpper()));
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    categories = categories.OrderByDescending(s => s.CategoryName);
-                    break;
-                default:  // Name ascending 
-                    categories = categories.OrderBy(s => s.CategoryName);
-                    break;
-            }
 
-            int pageSize = 50;
-            int pageNumber = (page ?? 1);
-            return View(categories.ToPagedList(pageNumber, pageSize));
+            
+            
+
+
+            
+            //
+
+      
         }
 
         //
@@ -71,31 +111,36 @@ namespace BuyalotWebShoppingApp.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            if (Session["adminName"] != null)
+            {
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
         }
         //
         // POST: /Student/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+      
+
         public ActionResult Create([Bind(Include = "CategoryName")]ProductCategory productCategory)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    unitOfWork.ProductCategoryRepository.Insert(productCategory);
-                    unitOfWork.Save();
-                    return RedirectToAction("Index");
-                }
-            }
-            catch (DataException /* dex */)
-            {
-                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, contact your system administrator.");
-            }
-            return View(productCategory);
+         
+                unitOfWork.ProductCategoryRepository.Insert(productCategory);
+                unitOfWork.Save();
+                return RedirectToAction("Index");
+
+            //return RedirectToAction("Index");
+
         }
+
+
+
 
         //
         // GET: /ProductCategory/Edit/5

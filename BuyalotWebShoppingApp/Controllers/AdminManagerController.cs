@@ -6,15 +6,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BuyalotWebShoppingApp.Models;
+using BuyalotWebShoppingApp.Provider;
 using BuyalotWebShoppingApp.DAL;
 using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AdminManagerController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
+        private BuyalotDbContext Context { get; set; }
 
         // GET: AdminManager
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -75,14 +77,21 @@ namespace BuyalotWebShoppingApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "adminID, adminName, email, password")]Admin admin)
+        public ActionResult Create(/*[Bind(Include = "adminID, adminName, email, password, confirmPassword")]*/Admin admin)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    unitOfWork.AdminRepository.Insert(admin);
-                    unitOfWork.Save();
+                    Admin admins = new Admin();
+                    admins.adminName = admin.adminName;
+                    admins.email = admin.email;
+                    admins.password = Cipher.Encrypt(admin.password);
+                    admins.confirmPassword = Cipher.Encrypt(admin.confirmPassword);
+
+                    BuyalotDbContext Context = new BuyalotDbContext();
+                    Context.Admins.Add(admins);
+                    Context.SaveChanges();
                     return RedirectToAction("Index");
                 }
             }

@@ -41,7 +41,7 @@ namespace BuyalotWebShoppingApp.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(Admin model)
+        public ActionResult Login(Admin model, string returnUrl)
         {
 
             var errors = ModelState
@@ -49,7 +49,7 @@ namespace BuyalotWebShoppingApp.Controllers
                     .Select(x => new { x.Key, x.Value.Errors })
                      .ToArray();
 
-            if (model.isValid(model.email, model.password))
+            if (model.isValid(model.email, Cipher.Encrypt(model.password)))
             {
                 FormsAuthentication.SetAuthCookie(model.email, false);
                 var dataItem = (from c in Context.Admins
@@ -61,62 +61,24 @@ namespace BuyalotWebShoppingApp.Controllers
                     Session["adminName"] = admin.adminName;
 
                 }
-
-
-                return RedirectToAction("Index", "CategoryManagement");
+                if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                 && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "CategoryManagement");
+                }
+                
             }
             else
                 ViewBag.err = "Incorrect Email/Password!Try again!";
             //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Incorrect details");
-            return RedirectToAction("Index", "CategoryManagement");
+            return RedirectToAction("Login", "AdminAccount");
         }
 
-
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult Register(Admin model)
-        {
-
-            var errors = ModelState
-              .Where(x => x.Value.Errors.Count > 0)
-              .Select(x => new { x.Key, x.Value.Errors })
-               .ToArray();
-
-            if (ModelState.IsValid)
-            {
-
-                Admin admin = new Admin();
-                admin.adminName = model.adminName;
-                admin.email = model.email;
-                admin.password = Cipher.Encrypt(model.password);
-                admin.confirmPassword = Cipher.Encrypt(model.confirmPassword);
-
-                Context.Admins.Add(admin);
-                Context.SaveChanges();
-
-                FormsAuthentication.SetAuthCookie(model.email, false);
-                var dataItem = (from c in Context.Admins
-                                where c.email == model.email
-                                select c).ToList();
-                foreach (var adminMode in dataItem)
-                {
-                    Session["userID"] = adminMode.adminID;
-                    Session["adminName"] = adminMode.adminName;
-
-                }
-
-                return RedirectToAction("Index", "CategoryManagement");
-            }
-
-            return View(model);
-        }
-
-        [Authorize]
+        //[Authorize]
         public ActionResult Logout()
         {
             var response = new HttpStatusCodeResult(HttpStatusCode.Created);
@@ -160,7 +122,7 @@ namespace BuyalotWebShoppingApp.Controllers
             message.From = new System.Net.Mail.MailAddress("maremanetp@gmail.com");
             message.To.Add(new System.Net.Mail.MailAddress(model.email));
             message.Subject = "Buyalot Online Shopping : Password Recovery";
-            message.Body = string.Format("Hi {0} ,<br /><br />Your password is: {0} .<br /><br />Thank You. <br /> Regards, <br /> Buyalot DevTeam", model.adminName, model.password);
+            message.Body = string.Format("Hi {0} ,<br /><br />Your password is: {0} .<br /><br />Thank You. <br /> Regards, <br /> Buyalot DevTeam", model.adminName, tempPassword);
             message.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";

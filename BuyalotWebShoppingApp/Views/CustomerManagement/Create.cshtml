@@ -9,7 +9,7 @@
 <fieldset>
    
     <legend class="container">Add Customer</legend>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Create", "CustomerManagement", new { returnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
