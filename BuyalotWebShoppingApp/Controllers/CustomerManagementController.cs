@@ -15,27 +15,57 @@ namespace BuyalotWebShoppingApp.Controllers
         private UnitOfWork unitOfWork = new UnitOfWork();
 
         // GET: CustomerManagement
-        public ViewResult Index()
+        public ActionResult Index()
         {
-            var customers = unitOfWork.CustomerRepository.Get();
-            foreach (var item in customers)
+            if (Session["adminName"] != null)
             {
-                Session["CusCount"] = customers.Count();
+
+                var customers = unitOfWork.CustomerRepository.Get();
+                foreach (var item in customers)
+                {
+                    Session["CusCount"] = customers.Count();
+                }
+                return View(customers.ToList());
             }
-            return View(customers.ToList());
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
+            
         }
 
         // GET: CustomerManagement/Details/5
-        public ViewResult Details(int id)
+        public ActionResult Details(int id)
         {
-            Customer customer = unitOfWork.CustomerRepository.GetByID(id);
-            return View(customer);
+            if (Session["adminName"] != null)
+            {
+
+                Customer customer = unitOfWork.CustomerRepository.GetByID(id);
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
+            
         }
 
         // GET: CustomerManagement/Create
         public ActionResult Create()
         {
-            return View();
+            if (Session["adminName"] != null)
+            {
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
+            
         }
 
         // POST: CustomerManagement/Create
@@ -68,8 +98,17 @@ namespace BuyalotWebShoppingApp.Controllers
         // GET: CustomerManagement/Edit/5
         public ActionResult Edit(int id)
         {
-            Customer customer = unitOfWork.CustomerRepository.GetByID(id);
-            return View(customer);
+            if (Session["adminName"] != null)
+            {
+
+                Customer customer = unitOfWork.CustomerRepository.GetByID(id);
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
         }
 
         // POST: CustomerManagement/Edit/5
@@ -99,8 +138,17 @@ namespace BuyalotWebShoppingApp.Controllers
         // GET: CustomerManagement/Delete/5
         public ActionResult Delete(int id)
         {
-            Customer customer = unitOfWork.CustomerRepository.GetByID(id);
-            return View(customer);
+            if (Session["adminName"] != null)
+            {
+
+                Customer customer = unitOfWork.CustomerRepository.GetByID(id);
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
         }
 
         // POST: CustomerManagement/Delete/5

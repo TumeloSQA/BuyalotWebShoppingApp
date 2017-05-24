@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="~/Images/buyalot.PNG" class="navbar-brand" />
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="//https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
 
     <script type="text/javascript">
         var appInsights=window.appInsights||function(config){
@@ -60,7 +60,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink(".", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 @*<a href="/#/"><img src="buyalot.PNG" class="navbar-brand" /></a>*@
             </div>
             <div class="navbar-collapse collapse">
@@ -187,7 +187,7 @@
     </footer>
     <br />
     <footer class="container" id="footer-Wrap">
-        <p>&copy; @DateTime.Now.Year - Buyalot</p>
+        <p>&copy; @DateTime.Now.Year - Buyalot Online Shopping Customer</p>
     </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -88,7 +88,17 @@ namespace BuyalotWebShoppingApp.Controllers
         // GET: AdminManager/Create
         public ActionResult Create()
         {
-            return View();
+            if (Session["adminName"] != null)
+            {
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
+            
         }
 
         // POST: AdminManager/Create
@@ -96,7 +106,7 @@ namespace BuyalotWebShoppingApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(/*[Bind(Include = "adminID, adminName, email, password, confirmPassword")]*/Admin admin)
+        public ActionResult Create([Bind(Include = "adminID, adminName, email, password, confirmPassword")]Admin admin)
         {
             try
             {
@@ -114,7 +124,7 @@ namespace BuyalotWebShoppingApp.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch (DataException /* dex */)
+            catch (DataException /*dex*/ )
             {
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, contact your system administrator.");
@@ -127,16 +137,22 @@ namespace BuyalotWebShoppingApp.Controllers
         // GET: AdminManager/Edit/5
         public ActionResult Edit(int id)
         {
-            Admin admin = unitOfWork.AdminRepository.GetByID(id);
-            return View(admin);
-        }
+            if (Session["adminName"] != null)
+            {
 
-        //
-        // GET: /ProductCategory/Edit/5
+                Admin admin = unitOfWork.AdminRepository.GetByID(id);
+                return View(admin);
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "adminID, adminName, email, password")]Admin admin)
+        public ActionResult Edit([Bind(Include = "adminID, adminName, email, password, confirmPassword")]Admin admin)
         {
             try
             {
@@ -160,10 +176,19 @@ namespace BuyalotWebShoppingApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Admin admin = unitOfWork.AdminRepository.GetByID(id);
-            unitOfWork.AdminRepository.Delete(id);
-            unitOfWork.Save();
-            return RedirectToAction("Index");
+            if (Session["adminName"] != null)
+            {
+
+                Admin admin = unitOfWork.AdminRepository.GetByID(id);
+                unitOfWork.AdminRepository.Delete(id);
+                unitOfWork.Save();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+            
         }
 
         protected override void Dispose(bool disposing)

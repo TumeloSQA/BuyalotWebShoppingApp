@@ -36,21 +36,13 @@ namespace BuyalotWebShoppingApp.Controllers
 
         public ActionResult Login()
         {
-            if (Session["adminName"] != null)
-            {
-
+     
                 return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "AdminAccount");
-            }
-
-
+    
         }
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(Admin model/*, string returnUrl*/)
+        public ActionResult Login(Admin model, string returnUrl)
         {
 
             var errors = ModelState
@@ -70,16 +62,16 @@ namespace BuyalotWebShoppingApp.Controllers
                     Session["adminName"] = admin.adminName;
 
                 }
-                ////if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                //// && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                ////{
-                ////    return Redirect(returnUrl);
-                ////}
-                ////else
-                ////{
-                    
-                ////}
-                return RedirectToAction("Index", "CategoryManagement");
+                if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                 && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "CategoryManagement");
+                }
+                
             }
             else
                 ViewBag.err = "Incorrect Email/Password!Try again!";
@@ -131,7 +123,7 @@ namespace BuyalotWebShoppingApp.Controllers
             message.From = new System.Net.Mail.MailAddress("maremanetp@gmail.com");
             message.To.Add(new System.Net.Mail.MailAddress(model.email));
             message.Subject = "Buyalot Online Shopping : Password Recovery";
-            message.Body = string.Format("Hi {0} ,<br /><br />Your password is: {0} .<br /><br />Thank You. <br /> Regards, <br /> Buyalot DevTeam", model.adminName, tempPassword);
+            message.Body = string.Format("Hi {0} ,<br /><br />Your password is: {1} .<br /><br />Thank You. <br /> Regards, <br /> Buyalot DevTeam", model.email, tempPassword);
             message.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";

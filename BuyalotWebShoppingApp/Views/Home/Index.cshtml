@@ -1,31 +1,178 @@
-﻿@{
+﻿@model IEnumerable<BuyalotWebShoppingApp.ViewModels.ProductCatViewModel>
+
+@{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+
+<style type="text/css">
+    #myImg {
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        #myImg:hover {
+            opacity: 0.7;
+        }
+
+    .size {
+        max-width: 1000px;
+    }
+</style>
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <a href="@Url.Action("Details", "Products", new { id = 9})">
+                <img src="~/images/samsung.jpg" alt="Samsung" class="img-responsive" />
+            </a>
+            <br /><br /><br /><br /><br />
+            <div class="carousel-caption" role="option">
+                <p>
+                    Samsung S7
+                    <a class="btn btn-success" href="@Url.Action("Details", "Products", new { id = 9})">
+                        More Details
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="item">
+            <a href="@Url.Action("Details", "Products", new { id = 13})">
+                <img src="~/images/lenovo.jpg" alt="Alien Ware" class="img-responsive" />
+            </a>
+            <br /><br /><br /><br /><br />
+            <div class="carousel-caption" role="option">
+                <p>
+                    Alien Ware
+                    <a class="btn btn-success" href="@Url.Action("Details", "Products", new { id = 13})">
+                        More Details
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="item">
+            <a href="@Url.Action("Details", "Products", new { id = 14})">
+                <img src="~/images/xperia.jpg" alt="Xperia Z" class="img-responsive" />
+            </a>
+            <br /><br /><br /><br /><br />
+            <div class="carousel-caption" role="option">
+                <p>
+                    Xperia Z1
+                    <a class="btn btn-success" href="@Url.Action("Details", "Products", new { id = 14})">
+                        More Details
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carousel nav -->
+    <a class="carousel-control left" href="#myCarousel" role="button" data-slide="prev"><span aria-hidden="true">&lsaquo;</span></a>
+    <a class="carousel-control right" href="#myCarousel" role="button" data-slide="next"><span aria-hidden="true">&rsaquo;</span></a>
+
+</div>
+<br />
+
+<br />
+<h3 style="border-bottom:solid 2px; border-bottom-color:dodgerblue">New Released Products</h3>
+<br />
+<div id="myTable">
+    @{
+        var column_count = 0;
+    }
+
+
+    @foreach (var product in Model)
+    {
+        column_count++;
+        <div style="display:inline-block" class="index-wrap">
+            @{
+
+                var base64 = Convert.ToBase64String(product.productImage);
+                var prodImage = string.Format("data:image/png;base64,{0}", base64);
+                var prodID = product.productID;
+                var name1 = product.vendor + "  " + product.productName;
+                //var price1 = product.price.ToString();
+                var quantity1 = product.quantityInStock;
+                var check1 = "";
+
+            }
+
+            @*<div class="img-wrapper">
+                    <img src="@prodImage" style="max-height:200px;max-width:200px;" class="img-responsive" id="myImg" />
+                </div>*@
+
+            <a href="@Url.Action("Details", "Products", new { id = product.productID })">
+                <div class="img-wrapper">
+                    <img src="@prodImage" id="myImg" style="max-height:200px;max-width:200px;" class="img-responsive" />
+                </div>
+            </a>
+
+            <br />
+            <a href="@Url.Action("Details", "Products", new { id = product.productID })">@name1</a>
+            <p>R @String.Format(String.Format("{0:0.00}", product.price))</p>
+            <div class="text-center">
+                @if (quantity1 > 0)
+                {
+                    check1 = "In Stock";
+                    <p style="color:green"><b>@check1</b></p>
+                    <p style="color:red"><b>@ViewBag.Availability</b></p>
+
+                    <div style="display:inline;margin:50px">
+                        <a>@Html.ActionLink(" ", "AddToCart", "Products", new { id = prodID }, new { @class = "btn btn-success glyphicon glyphicon-shopping-cart" })</a>
+                        <a>@Html.ActionLink(" ", "AddToWishlist", "ProductsWishlist", new { id = prodID }, new { @class = "btn btn-danger glyphicon glyphicon-heart" })</a>
+
+                    </div>
+                }
+                else
+                {
+                    check1 = "Out Of Stock";
+                    <p style="color:red"><b>@check1</b></p>
+
+                }
+            </div>
+
+
+            <br />
+        </div>
+                }
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+<script type="text/javascript">
+
+                function myFunction() {
+                    // Declare variables
+                    var input, filter, div, tr, td, i;
+                    input = document.getElementById("myInput");
+                    filter = input.value.toUpperCase();
+                    div = document.getElementById("myTable");
+                    tr = table.getElementsByTagName("tr");
+
+                    // Loop through all table rows, and hide those who don't match the search query
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[0];
+                        if (td) {
+                            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                }
+
+</script>
+
+
+
+
+
+

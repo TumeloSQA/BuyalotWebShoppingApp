@@ -11,7 +11,7 @@ using System.Web.Security;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    //[Authorize]
+    
     public class CustomerAccountController : Controller
     {
 
@@ -118,7 +118,7 @@ namespace BuyalotWebShoppingApp.Controllers
             return View(model);
 
         }
-        [Authorize]
+        
         public ActionResult Logout()
         {
             var response = new HttpStatusCodeResult(HttpStatusCode.Created);

@@ -205,6 +205,7 @@
     <Compile Include="Controllers\CustomerAccountController.cs" />
     <Compile Include="Controllers\CustomerManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProductsManagerController.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Repository\CategoryRepository.cs" />
     <Compile Include="Repository\ICategoryRepository.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ProductCatViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -386,9 +388,11 @@
     <Content Include="Views\Shared\_CustomerLoginPartialPage.cshtml" />
     <Content Include="Views\CustomerAccount\Success.cshtml" />
     <Content Include="Views\AdminAccount\Success.cshtml" />
+    <Content Include="Views\Home\Category.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Products\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

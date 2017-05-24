@@ -12,7 +12,7 @@ using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    //[Authorize]
+ 
     public class ProductsManagerController : Controller
     {
 
@@ -21,38 +21,65 @@ namespace BuyalotWebShoppingApp.Controllers
         // GET: ProductsManager
         public ActionResult Index()
         {
-            //ViewBag.prodCategoryID = new SelectList(Context.ProductCategoryModelSet, "prodCategoryID", "categoryName");
-            var product = (from p in db.Products
-                           select p).ToList();
-            foreach (var item in product)
+            if (Session["adminName"] != null)
             {
-                Session["ProdCount"] = product.Count;
+                var product = (from p in db.Products
+                               select p).ToList();
+                foreach (var item in product)
+                {
+                    Session["ProdCount"] = product.Count;
+                }
+                return View(product);
+
             }
-            return View(product);
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
+            
         }
 
         // GET: ProductsManager/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+
+            if (Session["adminName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(product);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            else
             {
-                return HttpNotFound();
+                return RedirectToAction("Login", "AdminAccount");
             }
-            return View(product);
+
         }
 
         // GET: ProductsManager/Create
         public ActionResult Create()
         {
-            ViewBag.ProdCategoryID = new SelectList(db.ProductCategories, "ProdCategoryID", "CategoryName");
-            Product pro = new Product();
-            return View(pro);
 
+            if (Session["adminName"] != null)
+            {
+
+                ViewBag.ProdCategoryID = new SelectList(db.ProductCategories, "ProdCategoryID", "CategoryName");
+                Product pro = new Product();
+                return View(pro);
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
         }
 
         // POST: ProductsManager/Create
@@ -60,7 +87,7 @@ namespace BuyalotWebShoppingApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,ProductName,ProductDescription,ProdCategoryID,Price,Vendor,QuantityInStock,ProductImage")] Product product, FormCollection collection, HttpPostedFileBase upload)
+        public ActionResult Create(/*[Bind(Include = "ProductID,ProductName,ProductDescription,ProdCategoryID,Price,Vendor,QuantityInStock,ProductImage")]*/ Product product, FormCollection collection, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
@@ -83,17 +110,26 @@ namespace BuyalotWebShoppingApp.Controllers
         // GET: ProductsManager/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (Session["adminName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.prodCategoryID = new SelectList(db.ProductCategories, "ProdCategoryID", "CategoryName", product.ProdCategoryID);
+                return View(product);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            else
             {
-                return HttpNotFound();
+                return RedirectToAction("Login", "AdminAccount");
             }
-            ViewBag.prodCategoryID = new SelectList(db.ProductCategories, "ProdCategoryID", "CategoryName", product.ProdCategoryID);
-            return View(product);
+ 
         }
 
         // POST: ProductsManager/Edit/5
@@ -116,16 +152,26 @@ namespace BuyalotWebShoppingApp.Controllers
         // GET: ProductsManager/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (Session["adminName"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(product);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            else
             {
-                return HttpNotFound();
+                return RedirectToAction("Login", "AdminAccount");
             }
-            return View(product);
+
+            
         }
 
         // POST: ProductsManager/Delete/5
