@@ -6,12 +6,15 @@
 }
 
 
-<div>
+<div class="col-lg-3">
     <br />
-    <hr />
+   
     <h4>Product Category Details</h4>
     <hr />
-    <dl class="dl-horizontal">
+    @*<div class="col-lg-3">
+     
+    </div>*@
+    <dl class="form-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.CategoryName)
         </dt>
@@ -21,8 +24,9 @@
         </dd>
 
     </dl>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ProdCategoryID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProdCategoryID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

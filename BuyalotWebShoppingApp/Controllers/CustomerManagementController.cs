@@ -10,7 +10,6 @@ using BuyalotWebShoppingApp.DAL;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    //[Authorize]
     public class CustomerManagementController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
@@ -45,7 +44,7 @@ namespace BuyalotWebShoppingApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "customerID,FirstName,LastName,Phone,Email,State")]Customer customer, string returnUrl)
+        public ActionResult Create([Bind(Include = "customerID,FirstName,LastName,Phone,Email,State")]Customer customer)
         {
             try
             {

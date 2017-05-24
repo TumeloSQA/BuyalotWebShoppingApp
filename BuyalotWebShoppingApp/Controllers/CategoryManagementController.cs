@@ -11,7 +11,7 @@ using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    //[Authorize]
+    
     public class CategoryManagementController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
@@ -56,6 +56,7 @@ namespace BuyalotWebShoppingApp.Controllers
                 {
                     Session["ProdCount"] = product.Count;
                 }
+                //Count Category
                 var categories = unitOfWork.ProductCategoryRepository.Get();
 
                 foreach (var item in categories)
@@ -88,26 +89,26 @@ namespace BuyalotWebShoppingApp.Controllers
             }
 
 
-            
-            
-
-
-            
-            //
-
-      
         }
 
         //
-        // GET: /Student/Details/5
-        public ViewResult Details(int id)
+        // GET: /Categories/Details/5
+        public ActionResult Details(int id)
         {
-            ProductCategory productCategory = unitOfWork.ProductCategoryRepository.GetByID(id);
-            return View(productCategory);
+            if (Session["adminName"] != null)
+            {
+
+                ProductCategory productCategory = unitOfWork.ProductCategoryRepository.GetByID(id);
+                return View(productCategory);
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
         }
 
-        //
-        // GET: /Student/Create
+    
+        // GET: /Categories/Create
 
         public ActionResult Create()
         {
@@ -122,32 +123,36 @@ namespace BuyalotWebShoppingApp.Controllers
             }
         }
         //
-        // POST: /Student/Create
+        // POST: /Categories/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-      
-
         public ActionResult Create([Bind(Include = "CategoryName")]ProductCategory productCategory)
         {
-         
-                unitOfWork.ProductCategoryRepository.Insert(productCategory);
-                unitOfWork.Save();
-                return RedirectToAction("Index");
 
-            //return RedirectToAction("Index");
+            unitOfWork.ProductCategoryRepository.Insert(productCategory);
+            unitOfWork.Save();
+
+            return RedirectToAction("Index");
 
         }
-
-
 
 
         //
         // GET: /ProductCategory/Edit/5
         public ActionResult Edit(int id)
         {
-            ProductCategory productCategory = unitOfWork.ProductCategoryRepository.GetByID(id);
-            return View(productCategory);
+            if (Session["adminName"] != null)
+            {
+
+                ProductCategory productCategory = unitOfWork.ProductCategoryRepository.GetByID(id);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+            
         }
 
         //
@@ -179,8 +184,17 @@ namespace BuyalotWebShoppingApp.Controllers
         // GET: /ProductCategory/Delete/5
         public ActionResult Delete(int id)
         {
-            ProductCategory productCategory = unitOfWork.ProductCategoryRepository.GetByID(id);
-            return View(productCategory);
+            if (Session["adminName"] != null)
+            {
+
+                ProductCategory productCategory = unitOfWork.ProductCategoryRepository.GetByID(id);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+            
         }
 
         //

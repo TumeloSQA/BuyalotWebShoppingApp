@@ -12,14 +12,13 @@ using PagedList;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    //[Authorize]
     public class AdminManagerController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
         private BuyalotDbContext Context { get; set; }
 
         // GET: AdminManager
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -34,36 +33,56 @@ namespace BuyalotWebShoppingApp.Controllers
             }
             ViewBag.CurrentFilter = searchString;
 
-            var admins = unitOfWork.AdminRepository.Get();
-            foreach (var item in admins)
+            if (Session["adminName"] != null)
             {
-                Session["AdminCount"] = admins.Count();
+
+                var admins = unitOfWork.AdminRepository.Get();
+                foreach (var item in admins)
+                {
+                    Session["AdminCount"] = admins.Count();
+                }
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    admins = admins.Where(s => s.adminName.ToUpper().Contains(searchString.ToUpper()));
+                }
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        admins = admins.OrderByDescending(s => s.adminName);
+                        break;
+                    default:  // Name ascending 
+                        admins = admins.OrderBy(s => s.adminName);
+                        break;
+                }
+
+                int pageSize = 50;
+                int pageNumber = (page ?? 1);
+                return View(admins.ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
             }
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                admins = admins.Where(s => s.adminName.ToUpper().Contains(searchString.ToUpper()));
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    admins = admins.OrderByDescending(s => s.adminName);
-                    break;
-                default:  // Name ascending 
-                    admins = admins.OrderBy(s => s.adminName);
-                    break;
-            }
-
-            int pageSize = 50;
-            int pageNumber = (page ?? 1);
-            return View(admins.ToPagedList(pageNumber, pageSize));
+           
         }
 
         // GET: AdminManager/Details/5
-        public ViewResult Details(int id)
+        public ActionResult Details(int id)
         {
-            Admin admin = unitOfWork.AdminRepository.GetByID(id);
-            return View(admin);
+
+            if (Session["adminName"] != null)
+            {
+
+                Admin admin = unitOfWork.AdminRepository.GetByID(id);
+                return View(admin);
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+            
         }
 
         // GET: AdminManager/Create

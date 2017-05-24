@@ -11,7 +11,6 @@ using System.Web.Security;
 
 namespace BuyalotWebShoppingApp.Controllers
 {
-    //[Authorize]
     public class AdminAccountController : Controller
     {
 
@@ -37,11 +36,21 @@ namespace BuyalotWebShoppingApp.Controllers
 
         public ActionResult Login()
         {
-            return View();
+            if (Session["adminName"] != null)
+            {
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "AdminAccount");
+            }
+
+
         }
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(Admin model, string returnUrl)
+        public ActionResult Login(Admin model/*, string returnUrl*/)
         {
 
             var errors = ModelState
@@ -61,16 +70,16 @@ namespace BuyalotWebShoppingApp.Controllers
                     Session["adminName"] = admin.adminName;
 
                 }
-                if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                 && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                {
-                    return Redirect(returnUrl);
-                }
-                else
-                {
-                    return RedirectToAction("Index", "CategoryManagement");
-                }
-                
+                ////if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                //// && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                ////{
+                ////    return Redirect(returnUrl);
+                ////}
+                ////else
+                ////{
+                    
+                ////}
+                return RedirectToAction("Index", "CategoryManagement");
             }
             else
                 ViewBag.err = "Incorrect Email/Password!Try again!";

@@ -4,12 +4,12 @@
     ViewBag.Title = "Admin Management | Admin Details";
 }
 
-<div>
+<div class="col-lg-3">
     <br />
     <hr />
     <h4>Admin Details</h4>
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="class="form-horizontal"" >
         <dt>
             @Html.DisplayNameFor(model => model.adminName)
         </dt>
@@ -35,8 +35,9 @@
         </dd>
 
     </dl>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.adminID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.adminID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
